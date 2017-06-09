@@ -1,0 +1,16 @@
+{
+  "name": "jsonschema-modeler",
+  "version": "0.0.1",
+  "description": "A tool for creating json models from a json schema",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "json-editor": "~0.7.28",
+    "dev": "~0.1.3",
+    "webpack": "~2.6.1"
+  }
+}

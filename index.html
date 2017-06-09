@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Json Modeler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <h1>Json Modeler</h1>
+    
+    <div id='editor_holder'></div>
+    <button id='submit'>Render Schema</button>
+    <div id='container'></div>
+    <div id='download'> </div>
+    
+    <script>
+      // Initialize the editor with a JSON schema
+      var modeler_data = null;      
+      var editor = null;
+      var xhr = new XMLHttpRequest();
+      xhr.open('get', "./js/modeler.json", true);
+      xhr.responseType = 'json';
+      xhr.onload = function() {
+        var status = xhr.status;
+        if (status == 200) {
+          modeler_data = { 
+            "schema" : xhr.response,
+            "disable_edit_json" : true,
+            "disable_properties" : true,
+            "disable_collapse" : true,
+            "keep_oneof_values": false,
+            "show_errors": "always",
+            "theme" : "bootstrap3"
+          };
+          editor = new JSONEditor(document.getElementById('editor_holder'),modeler_data);
+          document.getElementById('submit').addEventListener('click',function() {
+            var obj = editor.getValue();
+            var container = document.getElementById('container');
+            container.innerHTML = "<pre>"+JSON.stringify(obj, null, 4)+"</pre>";
+          });
+        }
+      };
+      xhr.send();
+      // Hook up the submit button to log to the console
+    </script>
+  </body>
+</html>
