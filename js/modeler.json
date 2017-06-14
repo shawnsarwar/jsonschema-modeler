@@ -138,35 +138,64 @@
         "anyOf": { "$ref": "#/definitions/schemaArray" },
         "oneOf": { "$ref": "#/definitions/schemaArray" },
         "not": { "$ref": "#" },
+        "existingModels":{
+            "type":"string",
+            "enum" :[
+                "org.ehealth.model.a",
+                "org.ehealth.model.b",
+                "org.ehealth.model.c"
+            ]
+        },
         "constraint" : {
+            "id": "constraint",
             "type": "object",
-            "headerTemplate" : "{{self.constraint_type}}",
+            "title": "Constraint",
+            "headerTemplate" : "Type: {{self.constraint_type}}",
             "watch" : {
                 "bname" : "self.constraint_type"
             },
-            "properties" : {
-                "constraint_type" : { 
-                    "type" : "string",
-                    "enum": ["a","b","c"]
+
+            "oneOf":[
+                {   
+                    "title" : "constraint",
+                    "type": "object",
+                    "properties":{
+                        "constraint_type": {
+                            "title":"Constraint Type",
+                            "enum" : ["cons_min", "const_max"]
+                        },
+                        "constraint_value": {
+                            "type": "string",
+                            "title": "Constraint Value"
+                        }
+                    }
                 },
-                "value" : {
-                    "type": "string",
-                    "href": "root.model_name"
+                {
+                    "title" : "control",
+                    "type" : "object",
+                    "properties":{
+                        "constraint_type":{
+                            "title" :" control type",
+                            "enum": [
+                                "anyOf", "allOf", "oneOf", "not"
+                            ]
+                        },
+                        "children": {
+                            "$ref" : "#/definitions/constraints"
+                        }
+                    } 
                 }
-            }
+            ]
+            
         },
-        
-        "constraint-minumum" : {
-            "title" : "minumum",
-            "properties" : {
-                "minimum" : {"$ref": "#/definitions/minimum"} 
-            }
-        },
-        "constraint-maximum" : {
-            "title" : "maximum",
-            "properties":{
-                "maximum" : {"$ref": "#/definitions/maximum"} 
-            }
+        "constraints" : {
+            "title" : "Constraints",
+            "type" : "array",
+            "format" : "tabs",
+            "uniqueItems": true,
+            "items": 
+                {"$ref" : "#/definitions/constraint"}
+            
         },
         "field" : {
             "type": "object",
@@ -182,18 +211,20 @@
                 },
                 "field_type" : {
                     "title" : "Field Type",
-                    "type" : "string",
+                    
                     "oneOf" : [
                         {
+                            "title": "simple types",
                             "$ref" : "#/definitions/simpleTypes"
+                        },
+                        {
+                            "title": "models",
+                            "$ref" : "#/definitions/existingModels"
                         }
                     ]
                 },
-                "constraints" : {
-                    "title" : "Constraints",
-                    "type" : "array",
-                    "format" : "tabs",
-                    "items": {"$ref" : "#/definitions/constraint"}
+                "constraints":{
+                    "$ref" : "#/definitions/constraints"
                 }
             }
         }

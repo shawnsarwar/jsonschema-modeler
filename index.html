@@ -36,6 +36,7 @@
           editor = new JSONEditor(document.getElementById('editor_holder'),modeler_data);
           document.getElementById('submit').addEventListener('click',function() {
             var obj = editor.getValue();
+            translateSchema(obj);
             var container = document.getElementById('container');
             container.innerHTML = "<pre>"+JSON.stringify(obj, null, 4)+"</pre>";
           });
