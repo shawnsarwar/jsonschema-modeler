@@ -1,5 +1,8 @@
 require("json-editor");
+require("jquery");
+require("selectize");
 
+window.Mark = require("markup-js");
 
 function translateSchema(schema, path = ""){
     console.log("path", path);

@@ -16,7 +16,7 @@
     
     <script>
       // Initialize the editor with a JSON schema
-      var modeler_data = null;      
+      var modeler_data = null;
       var editor = null;
       var xhr = new XMLHttpRequest();
       xhr.open('get', "./js/modeler.json", true);
@@ -31,8 +31,10 @@
             "disable_collapse" : true,
             "keep_oneof_values": false,
             "show_errors": "always",
-            "theme" : "bootstrap3"
+            "theme" : "bootstrap3",
+            "template": "markup"
           };
+          JSONEditor.plugins.selectize.enable = true;
           editor = new JSONEditor(document.getElementById('editor_holder'),modeler_data);
           document.getElementById('submit').addEventListener('click',function() {
             var obj = editor.getValue();
