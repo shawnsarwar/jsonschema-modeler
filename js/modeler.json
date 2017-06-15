@@ -156,13 +156,20 @@
             },
 
             "oneOf":[
+                {
+                    "title" : "unconstrained",
+                    "type": "null"
+                },
                 {   
                     "title" : "constraint",
                     "type": "object",
                     "properties":{
                         "constraint_type": {
                             "title":"Constraint Type",
-                            "enum" : ["cons_min", "const_max"]
+                            "type": "string",
+                            "enum" : [
+                                "cons_min", "const_max"
+                            ]
                         },
                         "constraint_value": {
                             "type": "string",
@@ -176,12 +183,19 @@
                     "properties":{
                         "constraint_type":{
                             "title" :" control type",
+                            "type":"string",
                             "enum": [
                                 "anyOf", "allOf", "oneOf", "not"
                             ]
                         },
                         "children": {
-                            "$ref" : "#/definitions/constraints"
+                            "title" : "Constraints",
+                            "type" : "array",
+                            "format" : "table",
+                            "uniqueItems": true,
+                            "items":{
+                                "$ref" : "#/definitions/constraint"
+                            }
                         }
                     } 
                 }
@@ -224,7 +238,7 @@
                     ]
                 },
                 "constraints":{
-                    "$ref" : "#/definitions/constraints"
+                    "$ref" : "#/definitions/constraint"
                 }
             }
         }
